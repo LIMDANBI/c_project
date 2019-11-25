@@ -1,72 +1,62 @@
-#include <stdio.h>
+#include "cal.h"
 
-#define LEN 100
-#define TRUE = 1
-#define FALSE = 0
-
-typedef int Data;
-
-typedef struct stack{
-	Data Arr[LEN];
-	int top;
-
-}stack;
-
-typedef stack Stack;
-
-
-void stack_init(Stack *pstack){
-	pstack->top = -1;
+operStackNode* newOperStackNode(char c)
+{
+    operStackNode *temp = (operStackNode *)malloc(sizeof(operStackNode));
+    temp->oper = c;
+    temp->prev = NULL;
+    return temp;
 }
 
-
-int stack_empty(Stack *pstack){
-	if(top == -1) return TRUE;
-	else return FALSE;
+operStack* newOperStack(void)
+{
+    operStack *temp = (operStack *)malloc(sizeof(operStack));
+    temp->top = NULL;
+    return temp;
 }
 
-
-void push(Stack *pstack, Data Data){
-	
-	pstack->top += 1;
-	pstack->Arr[pstack->top] = Data;
-
+void pushToOperStack(operStack *stk, operStackNode *newnode)
+{
+    newnode->prev = stk->top;
+    stk->top = newnode;
 }
 
-void pop(Stack *pstack, Data Data){
-
-	if(stack_empty == 1) {
-		printf("error!");
-		exit(-1);
-	}
-	pstack->top -= 1;
+char popFromOperStack(operStack *stk)
+{
+    char poped = stack->top->oper;
+    operStackNode *temp = stack->top->prev;
+    free(stack->top);
+    stack->top = temp;
+    return poped;
 }
 
-Data peek(Stack *pstack){
-
-	if(stack_empty == 1){
-		printf("error!");
-		exit(-1);
-	}
-	return pstack->Arr[pstack->top];
+numStackNode* newNumStackNode(NUM *n)
+{
+    numStackNode *temp = (numStackNode *)malloc(sizeof(numStackNode));
+    temp ->num = n;
+    temp->prev = NULL;
+    return temp;
 }
 
-void show(Stack *pstack){
-	if(stack_empty == 1){
-		printf("error!");
-		exit(-1);
-	}
-
-	for(int i = 0; i < (pstack->top) + 1; i++){
-		printf("%d\n",pstack->Arr[i]);
-	}
+numStack *newNumStack(void)
+{
+    numStack *temp = (numStack *)malloc(sizeof(numStack));
+    temp->top = NULL;
+    return temp;
 }
 
-int main(){
-	Stack stack;
-	stack_empty(&stack);
-
-	Push(&stack, /*sth num*/);
-
-	print(&stack);
+void pushToNumStack(numStack *stk, numStackNode *newnode)
+{
+    newnode->prev = stk->top;
+    stk->top = newnode;
 }
+
+NUM *popFromNumStack(numStack *stk)
+{
+    NUM *poped = stk->top->num;
+    numStackNode *temp = stk->top->prev;
+    free(stk->top);
+    stk->top = temp;
+    return poped;
+}
+

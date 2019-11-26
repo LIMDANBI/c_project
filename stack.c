@@ -31,7 +31,7 @@ int emptyNstk(numStk *stk){ // 스택이 비었으면 1 , 스택이 비어있지
   }
 }
 
-operStackNode* newOperStk(char c){ //새로운 연산자 스택 생성  
+operStkNode* newOperStk(char c){ //새로운 연산자 스택 생성  
    operStkNode *stk = (operStkNode* )malloc(sizeof(operStkNode));
    stk->oper = c;
    stk->prev = NULL;

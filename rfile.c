@@ -17,8 +17,7 @@ int main(){
 				while(c != '.'){
 					c = numList->integer;
 				}
-				if(c == '.') pass;
-				else if(c != '.') c = numList->decimal;
+				if(c != '.') c = numList->decimal;
 			}//you have to add codes about ERROR when '.' appear twice.
 		}while(c != EOF);
 		fclose(fp);

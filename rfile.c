@@ -12,7 +12,6 @@ int main(){
 			if(c == '+') c = operStkNode->oper;
 			else if(c == '-') c = operStkNode->oper;
 			else if(c == '*') c = operStkNode->oper;
-			else if(c == '.') pass;
 			else{
 				while(c != '.'){
 					c = numList->integer;

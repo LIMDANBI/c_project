@@ -13,7 +13,13 @@ int main(){
 			else if(c == '-') c = operStkNode->oper;
 			else if(c == '*') c = operStkNode->oper;
 			else if(c == '.') pass;
-			else c = numNode->data;//you have to categorize decimal part and integer part of numNode in case of '.'.
+			else{
+				while(c != '.'){
+					c = numList->integer;
+				}
+				if(c == '.') pass;
+				else if(c != '.') c = numList->decimal;
+			}//you have to add codes about ERROR when '.' appear twice.
 		}while(c != EOF);
 		fclose(fp);
 	}

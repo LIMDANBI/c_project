@@ -12,7 +12,6 @@ int arrsum(int *a){
 }
 
 int main(void){
-	int a[N] = {1,2,3,4};
+	int a[N] = {1,2,3,5};
 
 	printf("%d\n", arrsum(a));
-}

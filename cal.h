@@ -54,7 +54,8 @@ numNode* newNumNode(int data);
 NUM* newNUM(void);
 numList* newNumList(void);
 numNode* getNumTail(numList *list);
-void appendNum(numList *list, int nextN);
+void appendNum(numList *list, int data);
+void rappendNum(numList *list, int data);
 void printNum(NUM *n);
 
 //expressionList.c

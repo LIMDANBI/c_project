@@ -1,64 +1,65 @@
 # include "cal.h"
 
-numStkNode* newNumStk(NUM *n){  //새로운 숫자 스택 생성  
-  numStkNode *stk = (numStkNode* )malloc(sizeof(numStkNode));
-  stk->num = n;
-  stk->prev = NULL;
-  return stk;
+operStkNode* newOperStkNode(char c){
+  operStkNode* tmp = (operStkNode*)malloc(sizeof(operStkNode));
+  tmp->oper = c;
+  tmp->prev = NULL;
+  return tmp;
 }
 
-void push2Nstk(numStk *stk, NUM *n){ //숫자 스택에 푸쉬  
-  numStkNode *tmp = (numStkNode* )malloc(sizeof(numStkNode));
-  tmp->num = n;
+operStk* newOperStk(){
+  operStk* tmp = (operStk*)malloc(sizeof(operStk));
+  tmp->top = NULL;
+  return tmp;
+}
+void push2Ostk(operStk* stk, char c){
+  operStkNode* tmp = newOperStkNode(c);
   tmp->prev = stk->top;
   stk->top = tmp;
 }
 
-NUM* pop4Nstk(numStk *stk){  //숫자 스택에서 팝  
-  NUM *poped = stk->top->num;
-  numStkNode *tmp = stk->top->prev;
-  free(stk->top);
+char pop4Ostk(operStk* stk){
+  operStkNode* tmp = skt->top;
+  char poped = tmp->oper;
+  stk->top = tmp->prev;
+  free(tmp);
+  return poped;
+}
+
+int emptyOstk(operStk* stk){
+  if(stk->top == NULL) return 1;
+  else return 0;
+}
+
+numStkNode* newNumStkNode(NUM *n){
+  numStkNode* tmp = (numStkNode* )malloc(sizeof(numStkNode));
+  tmp->num = n;
+  tmp->prev = NULL;
+  return tmp;
+}
+
+numStk* newNumStk(){
+  numStk* tmp = (numStk* )malloc(sizeof(numStkNode));
+  tmp->top = NULL;
+  return tmp;
+}
+
+void push2Nstk(numStk *stk, NUM *n){
+  numStkNode* tmp = newNumNode(n);
+  tmp->prev = stk->top;
   stk->top = tmp;
+}
+
+NUM* pop4Nstk(numStk *stk){
+  numStkNode* tmp = stk->top;
+  NUM* poped = tmp->num;
+  stk->top = tmp->prev;
+  free(tmp);
   return poped;
 }
 
-int emptyNstk(numStk *stk){ // 스택이 비었으면 1 , 스택이 비어있지 않으면 0 
-  if(stk->top == NULL){
-    return 1;
-  }
-  else{
-    return 0;
-  }
+int emptyNstk(numStk *stk){
+  if(stk->top == NULL) return 1;
+  else return 0;
 }
 
-operStkNode* newOperStk(char c){ //새로운 연산자 스택 생성  
-   operStkNode *stk = (operStkNode* )malloc(sizeof(operStkNode));
-   stk->oper = c;
-   stk->prev = NULL;
-   return stk;
- }
-
-void push2Ostk(operStk *stk, char c){  //연산자 스택에 푸쉬   
-   operStkNode *tmp = (operStkNode* )malloc(sizeof(operStkNode));
-   tmp->oper = c;
-   tmp->prev = stk->top;
-   stk->top = tmp;
- }
-
-char pop4Ostk(operStk *stk){  // 연산자 스택에서 팝   
-  char poped;
-  poped = stk->top->oper;
-  operStkNode *tmp = stk->top->prev;
-  free(stk->top);
-  stk->top = tmp; 
-  return poped;
-}
-
-int emptyOstk(operStk *stk){ // 스택이 비었으면 1 , 스택이 비어있지 않으면 0 
-  if(stk->top == NULL){
-    return 1;
-  }
-  else{
-    return 0;
-  }
-} 

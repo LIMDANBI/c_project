@@ -19,7 +19,7 @@ void push2Ostk(operStk* stk, char c){
 }
 
 char pop4Ostk(operStk* stk){
-  operStkNode* tmp = skt->top;
+  operStkNode* tmp = stk->top;
   char poped = tmp->oper;
   stk->top = tmp->prev;
   free(tmp);
@@ -45,7 +45,7 @@ numStk* newNumStk(){
 }
 
 void push2Nstk(numStk *stk, NUM *n){
-  numStkNode* tmp = newNumNode(n);
+  numStkNode* tmp = newNumStkNode(n);
   tmp->prev = stk->top;
   stk->top = tmp;
 }

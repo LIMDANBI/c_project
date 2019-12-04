@@ -54,7 +54,7 @@ void rappendNum(numList *list, int data){  //appendNum과 반대로 거꾸로 �
   }
 }
 
-void printNum(NUM *n){  //NUM을 프린트 해주는 함수 
+void printNum(NUM *n){  //NUM을 프린트 해주는 함수
   numNode *tmp = n->integer->head;
   if(n->sign) printf("-");
   while(tmp!=NULL){

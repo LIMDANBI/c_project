@@ -71,4 +71,3 @@ NUM* plus(NUM *n1, NUM *n2){
 // NUM* divi(NUM *n1, NUM *n2){
 //
 // }
-

@@ -66,7 +66,7 @@ expressionNode* getExpressionTail(expressionList *list);
 void appendExpression(expressionList *list, expressionNode *exnode);
 
 //stack.c
-numStkNode* newNumStkNode();
+numStkNode* newNumStkNode(NUM *n);
 numStk* newNumStk(void);
 void push2Nstk(numStk *stk, NUM *n);
 NUM* pop4Nstk(numStk *stk);

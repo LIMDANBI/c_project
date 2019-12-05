@@ -1,64 +1,63 @@
 # include "cal.h"
 
-numNode* newNumNode(int data){      // 새로운 넘노드를 만들어 줌
-    numNode* tmp = (numNode* )malloc(sizeof(numNode));
-    tmp->data = data;
-    tmp->prev = NULL;
-    tmp->next = NULL;
-    return tmp;
+numNode* newNumNode(int data){  // [prev - data - next] 형의 노드
+  numNode* tmp = (numNode*)malloc(sizeof(numNode));
+  tmp->data = data;
+  tmp->next = NULL;
+  tmp->prev = NULL;
+  return tmp;
 }
 
-NUM* newNUM(void){  // 새로운 넘을 만들어 줌
-    NUM *tmp = (NUM* )malloc(sizeof(NUM));
-    tmp->sign = 0;
-    tmp->integer = NULL;
-    tmp->decimal = NULL;
-    return tmp;
+numList* newNumList(){  // 정수, 소수 부분을 리스트로 연결
+  numList* tmp = (numList*)malloc(sizeof(numList));
+  tmp->head = NULL;
+  return tmp;
 }
 
-numList* newNumList(void){  // 새로운 넘 리스트를 만들어 줌
-    numList *tmp = (numList* )malloc(sizeof(numList));
-    tmp->head = NULL;
-    return tmp;
+NUM* newNUM(){  // 부호+정수부분+소수부분 (즉, 하나의 숫자)
+  NUM* tmp = (NUM*)malloc(sizeof(NUM));
+  tmp->sign = 0;
+  tmp->decimal = NULL;
+  tmp->integer = NULL;
+  return tmp;
 }
 
-
-numNode* getNumTail(numList *list){  // 넘노드의 꼬리를 리턴해줌
-    numNode *tmp = list->head;
-    while(tmp->next != NULL){
-        tmp = tmp->next;
-    }
-    return tmp;
+numNode* getNumTail(numList* list){  //원하는 리스트의 꼬리노드를 알 수 있음
+  numNode* tmp = list->head;
+  while(tmp->next != NULL){
+    tmp = tmp->next;
+  }
+  return tmp;
 }
 
-
-void appendNum(numList *list, int nextN){   // 넘리스트와 숫자 하나를 받아서 넘 리스트를 확장
-    numNode *tmp = newNumNode(nextN);
-    if(list->head == NULL){
-        list->head = tmp;
-    }
-    else{
-        numNode *tail = getNumTail(list);
-        tmp->prev = tail;
-        tail->next = tmp;
-    }
+void appendNum(numList* list, int data){  //원하는 리스트에 data를 추가할 수 있음
+  numNode* tmp = newNumNode(data);
+  if(list->head == NULL){
+    list->head = tmp;
+  }
+  else{
+    numNode* tail = getNumTail(list);
+    tail->next = tmp;
+    tmp->prev = tail;
+  }
 }
+
 void rappendNum(numList *list, int data){  //appendNum과 반대로 거꾸로 데이터 추가
   numNode *tmp = newNumNode(data);
   if(list->head == NULL){
     list->head = tmp;
   }
   else{
-    numNode *tail = getNumTail(list);
-    tail->prev = tmp;
-    tmp->next = tail;
+    numNode *recent = list->head;
+    recent->prev = tmp;
+    tmp->next = recent;
     list->head = tmp;
   }
 }
 
-void printNum(NUM *n){ //넘을 프린트해주는 함수
+void printNum(NUM *n){  //NUM을 프린트 해주는 함수
   numNode *tmp = n->integer->head;
-  if(n->sign) printf("-"); // + : 0, - : 1
+  if(n->sign) printf("-");
   while(tmp!=NULL){
     printf("%d",tmp->data);
     tmp = tmp->next;

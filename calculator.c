@@ -12,29 +12,31 @@ NUM* plus(NUM *n1, NUM *n2){
   numNode *d1 = n1->decimal->head;
   numNode *d2 = n2->decimal->head;
 
-  while(1){   //두수의 소수부분 자리수를 맞춰준다   
+  while(1){   //두수의 소수부분 자리수를 맞춰준다
     if(d1==NULL && d2==NULL) break;
     else if(d1==NULL || d2==NULL){
       if(d1==NULL){
         while(d2!=NULL){
-          appendNum(n1->decimal, 0); d2 = d2->next;  
+          appendNum(n1->decimal, 0); d2 = d2->next;
         }
+        break;
       }
       else{  //d2== NULL
         while(d1!=NULL){
           appendNum(n2->decimal, 0); d1 = d1->next;
         }
+        break;
       }
     }
     else{
-      d1 = d1->next;d2 = d2->next;
+      d1 = d1->next; d2 = d2->next;
     }
   }
 
   numNode *dtail1 = getNumTail(n1->decimal);
   numNode *dtail2 = getNumTail(n2->decimal);
-  
-  while (dtail1 != n1->decimal->head) {  //소수 부분 계산 시작  
+
+  while (dtail1 != NULL) {  //소수 부분 계산 시작
     int tmp = carry + dtail1->data + dtail2->data;
     if(tmp>10){
       carry = tmp/10; tmp = tmp%10;
@@ -46,17 +48,41 @@ NUM* plus(NUM *n1, NUM *n2){
 
   numNode *itail1 = getNumTail(n1->integer);
   numNode *itail2 = getNumTail(n2->integer);
-  
-  while(itail1 != n1->integer->head){  // 정수부분 계산 시작     
-    int tmp = carry + itail1->data + itail2->data;
-    if(tmp>10){
-      carry = tmp/10; tmp = tmp%10;
-      rappendNum(decimpart, tmp);
-    }
-    else rappendNum(decimpart, tmp);
-    itail1 = itail1->prev; itail2= itail2->prev;
-  }
 
+  while(1){  // 정수부분 계산 시작
+    if(itail1==NULL && itail2==NULL){
+      break;
+    }
+    else if(itail1==NULL || itail2==NULL){
+      if(itail1 == NULL){
+        int tmp = carry + itail2->data;
+        if(tmp>10){
+          carry = tmp/10; tmp = tmp%10;
+          rappendNum(intpart, tmp);
+        }
+        else rappendNum(intpart, tmp);
+        itail2 = itail2->prev;
+      }
+      else{ //itail2 == NULL
+        int tmp = carry + itail1->data;
+        if(tmp>10){
+          carry = tmp/10; tmp = tmp%10;
+          rappendNum(intpart, tmp);
+        }
+        else rappendNum(intpart, tmp);
+        itail1 = itail1->prev;
+      }
+    }
+    else{ //둘다 널이 아닐 때
+      int tmp = carry + itail1->data + itail2->data;
+      if(tmp>10){
+        carry = tmp/10; tmp = tmp%10;
+        rappendNum(intpart, tmp);
+      }
+      else rappendNum(intpart, tmp);
+      itail1 = itail1->prev; itail2= itail2->prev;
+    }
+  }
   return ans;
 }
 
@@ -71,3 +97,4 @@ NUM* plus(NUM *n1, NUM *n2){
 // NUM* divi(NUM *n1, NUM *n2){
 //
 // }
+

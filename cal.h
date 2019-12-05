@@ -18,9 +18,9 @@ typedef struct NUM{ //넘 구조체, 부호-정수-소수
 }NUM;
 
 typedef struct expressionNode{ //익스프레션 노드
-    NUM *num;
-    char oper;
-    struct expressionNode *next;
+  char oper;
+  NUM *num;
+  struct expressionNode *next;
 }expressionNode;
 
 typedef struct expressionList{  // 익스프레션 리스트, 중위표기식을 받아 후위표기식으로 변환할 때 사용  (후위표기식도 expressionList 타입임)

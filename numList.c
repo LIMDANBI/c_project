@@ -51,6 +51,7 @@ void rappendNum(numList *list, int data){  //appendNum과 반대로 거꾸로 �
     numNode *tail = getNumTail(list);
     tail->prev = tmp;
     tmp->next = tail;
+    list->head = tmp;
   }
 }
 

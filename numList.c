@@ -24,6 +24,9 @@ NUM* newNUM(){  // 부호+정수부분+소수부분 (즉, 하나의 숫자)
 
 numNode* getNumTail(numList* list){  //원하는 리스트의 꼬리노드를 알 수 있음
   numNode* tmp = list->head;
+  if(tmp == NULL){
+    return tmp;
+  }
   while(tmp->next != NULL){
     tmp = tmp->next;
   }

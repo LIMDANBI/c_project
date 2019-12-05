@@ -44,4 +44,3 @@ void in2post(expressionList* infix, expressionList* postfix){
     appendExpression(postfix, newExpressionNode(NULL, pop4Ostk(stk)));
   }
 }
-

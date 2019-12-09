@@ -57,6 +57,8 @@ numNode* getNumTail(numList *list);
 void appendNum(numList *list, int data);
 void rappendNum(numList *list, int data);
 void printNum(NUM *n);
+void deletzero(NUM *n);
+int whoMore(NUM *n1, NUM *n2);
 
 //expressionList.c
 int operCheck(char oper); //연산자이면 1, 아니면 0 리턴

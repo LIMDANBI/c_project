@@ -51,31 +51,27 @@ int main(){
 
     expressionNode *path = postfix->head;
     numStk *nStk = newNumStk();  //계산시 숫자를 보관하고 빼서 쓸 스택 선언
-    
+
     while(path!=NULL){   //postfix식을 돌면서 계산을 함
       if(operCheck(path->oper)){ //연산자인 경우
         if(path->oper == '+'){  //스택에서 두 수를 빼서 계산하고 결과 값을 다시 스택에 넣는다.
-          NUM *process1 = pop4Nstk(nStk);
-          NUM *process2 = pop4Nstk(nStk);
-          NUM *result = plus(process1, process2);
+          NUM *process1 = pop4Nstk(nStk); NUM *process2 = pop4Nstk(nStk);
+          NUM *result = plus(process2, process1);
           push2Nstk(nStk, result);
         }
-        // else if(path->oper == '-'){
-        //   NUM *process1 = pop4Nstk(nStk);
-        //   NUM *process2 = pop4Nstk(nStk);
-        //   NUM *result = minus(process1, process2);
-        //   push2Nstk(nStk, result);
-        // }
+        else if(path->oper == '-'){
+          NUM *process1 = pop4Nstk(nStk); NUM *process2 = pop4Nstk(nStk);
+          NUM *result = minus(process2, process1);
+          push2Nstk(nStk, result);
+        }
         // else if(path->oper == '*'){
-        //   NUM *process1 = pop4Nstk(nStk);
-        //   NUM *process2 = pop4Nstk(nStk);
-        //   NUM *result = multi(process1, process2);
+        //   NUM *process1 = pop4Nstk(nStk); NUM *process2 = pop4Nstk(nStk);
+        //   NUM *result = multi(process2, process1);
         //   push2Nstk(nStk, result);
         // }
         // else{
-        //   NUM *process1 = pop4Nstk(nStk);
-        //   NUM *process2 = pop4Nstk(nStk);
-        //   NUM *result = divi(process1, process2);
+        //   NUM *process1 = pop4Nstk(nStk); NUM *process2 = pop4Nstk(nStk);
+        //   NUM *result = divi(process2, process1);
         //   push2Nstk(nStk, result);
         // }
       }
@@ -84,7 +80,8 @@ int main(){
       }
       path = path->next;
     }
-    NUM *final_ans = pop4Nstk(nStk);
+
+    NUM *final_ans = pop4Nstk(nStk); // deletzero(final_ans);
     printNum(final_ans);
   }
 

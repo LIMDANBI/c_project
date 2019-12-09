@@ -30,7 +30,7 @@ NUM* plus(NUM *n1, NUM *n2){
   } //prefect(debugging)
 
 //마이너스 수가 인자로 들어올 수 있음
-  if(n1->sign == 1 && n2->sign == 1)ans->sign = 1;
+  if(n1->sign == 1 && n2->sign == 1) ans->sign = 1;
   else if(n1->sign == 1){
     n1->sign = 0; ans = minus(n2, n1);
     return ans;
@@ -186,7 +186,7 @@ NUM* minus(NUM *n1, NUM *n2){
       break;
     }
     else{  //둘다 널이 아닐 때
-      if(itail1->data>=itail2->data){
+      if(itail1->data-pull>=itail2->data){
         rappendNum(intpart, itail1->data-itail2->data - pull); pull = 0;
       }
       else{  // 빼는 값이 같거나 더 큰 경우

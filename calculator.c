@@ -10,6 +10,15 @@ NUM* plus(NUM *n1, NUM *n2){
   numNode *d1 = n1->decimal->head;
   numNode *d2 = n2->decimal->head;
 
+  //마이너스 수가 인자로 들어올 수 있음
+    if(n1->sign == 1 && n2->sign == 1) ans->sign = 1;
+    else if(n1->sign == 1){
+      n2->sign = 1; ans = plus(n2, n1); return ans;
+    }
+    else if(n2->sign == 1){
+      n2->sign = 0; ans = plus(n1, n2); return ans;
+    }
+    
   while(1){   //두수의 소수부분 자리수를 맞춰준다
     if(d1==NULL && d2==NULL) break;
     else if(d1==NULL){
@@ -28,17 +37,6 @@ NUM* plus(NUM *n1, NUM *n2){
       d1 = d1->next; d2 = d2->next;
     }
   } //prefect(debugging)
-
-//마이너스 수가 인자로 들어올 수 있음
-  if(n1->sign == 1 && n2->sign == 1) ans->sign = 1;
-  else if(n1->sign == 1){
-    n1->sign = 0; ans = minus(n2, n1);
-    return ans;
-  }
-  else if(n2->sign == 1){
-    n2->sign = 0; ans = minus(n1, n2);
-    return ans;
-  }
 
   numNode *dtail1 = getNumTail(n1->decimal);
   numNode *dtail2 = getNumTail(n2->decimal);
@@ -196,7 +194,6 @@ NUM* minus(NUM *n1, NUM *n2){
       itail1 = itail1->prev; itail2 = itail2->prev;
     }
   }
-
   return ans;
 }
 

@@ -61,6 +61,7 @@ int main(){
         }
         else if(path->oper == '-'){
           NUM *process1 = pop4Nstk(nStk); NUM *process2 = pop4Nstk(nStk);
+          printNum(process2); printf(" "); printNum(process1); printf("\n");
           NUM *result = minus(process2, process1);
           push2Nstk(nStk, result);
         }
@@ -84,36 +85,3 @@ int main(){
     NUM *final_ans = pop4Nstk(nStk); // deletzero(final_ans);
     printNum(final_ans);
   }
-
-    // 출력 확인
-    // printf("\n");
-    // expressionNode* pathin = infix->head;
-    // while(pathin != NULL){
-    //   if(pathin->oper == 0){
-    //     printNum(pathin->num);
-    //   }
-    //   else{
-    //     printf("%c", pathin->oper);
-    //   }
-    //   pathin = pathin->next;
-    // }
-    //
-    // // 중위표기식 출력 완료
-    //
-    // expressionList* postfix = newExpressionList();
-    // in2post(infix, postfix);
-    //
-    // printf("\n\n");
-    // expressionNode* pathpo = postfix->head;
-    // while(pathpo != NULL){
-    //   if(pathpo->oper == 0){
-    //     printNum(pathpo->num);
-    //   }
-    //   else{
-    //     printf("%c", pathpo->oper);
-    //   }
-    //   printf(" ");
-    //   pathpo = pathpo->next;
-  //   // }
-  // }
-

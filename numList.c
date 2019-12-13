@@ -75,19 +75,16 @@ void printNum(NUM *n){  //NUM을 프린트 해주는 함수
   }
 }
 
-int whoMore(NUM *n1, NUM *n2){  // 두 넘을 받아서 누가 더 큰지 리턴해주는 함수
-                                // 0 :같다 , 1: n1이 더 크다 , 2: n2가 더 크다.
+int whoMore(NUM *n1, NUM *n2){  // 두 넘을 받아서 누가 절대값이 더 큰지 리턴해주는 함수
+                               // 0 :같다 , 1: n1이 더 크다 , 2: n2가 더 크다.
 
-  if(n1->sign > n2->sign) return 2;
-  else if(n1->sign < n2->sign) return 1;
-  
   numNode *intpart1 = n1->integer->head;
   numNode *intpart2 = n2->integer->head;
   while (1) {  // 정수 부분 부터 체크
     if(intpart1==NULL && intpart2==NULL){  // 길이가 같을 때
       intpart1 = n1->integer->head; intpart2 = n2->integer->head;
       while (intpart1!=NULL) {
-        if(intpart1->data > intpart2->data) return 1;
+        if(intpart1->data > intpart2->data)return 1;  // - + 일 경우 다르게 처리 해줘야 함 (여기 말고 사용할 때 할 까?)
         else if(intpart2->data > intpart1->data) return 2;
         intpart1 = intpart1->next; intpart2 = intpart2->next;
       }

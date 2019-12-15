@@ -26,7 +26,7 @@ void in2post(expressionList* infix, expressionList* postfix){
       else if(before->oper == ')'){  // ')'인 경우
         while(!emptyOstk(stk) && stk->top->oper != '('){
           if(emptyOstk(stk)){
-            printf(" !! The parentheses pair does not match. !! \n "); exit(1); 
+            printf(" !! The parentheses pair does not match. !! \n "); exit(1);
           }
           appendExpression(postfix, newExpressionNode(NULL, pop4Ostk(stk)));
         }
@@ -49,7 +49,7 @@ void in2post(expressionList* infix, expressionList* postfix){
   expressionNode *path = postfix->head;
   while(path != NULL){
     if(path->oper == '(' || path->oper ==')'){
-      printf(" !! The parentheses pair does not match. !! \n "); exit(1); 
+      printf(" !! The parentheses pair does not match. !! \n "); exit(1);
     }
     path = path->next;
   }

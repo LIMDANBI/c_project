@@ -1,7 +1,7 @@
 # include "cal.h"
 
 int operCheck(char c){
-  if(c == '+' || c == '-' || c == '*' || c == '/' || c == '(' || c ==')') return 1;
+  if(c == '+' || c == '-' || c == '*' || c == '(' || c ==')') return 1;
   else return 0;
 }
 

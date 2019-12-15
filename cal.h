@@ -87,5 +87,4 @@ void in2post(expressionList *infix, expressionList *postfix);
 NUM* plus(NUM *n1, NUM *n2);
 NUM* minus(NUM *n1, NUM *n2);
 NUM* multi(NUM *n1, NUM *n2);
-NUM* divi(NUM *n1, NUM *n2);
 

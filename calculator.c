@@ -1,5 +1,7 @@
 # include "cal.h"
 
+//----------------------- "+" --------------------------------------
+
 NUM* plus(NUM *n1, NUM *n2){
 
   int carry = 0;
@@ -91,7 +93,7 @@ NUM* plus(NUM *n1, NUM *n2){
   return ans;
 }
 
-// --------------------- "+" ---------------------------------------
+//----------------------- "-" --------------------------------------
 
 NUM* minus(NUM *n1, NUM *n2){
 
@@ -184,47 +186,23 @@ NUM* minus(NUM *n1, NUM *n2){
   return ans;
 }
 
+//----------------------- "*" --------------------------------------
 
-//----------------------- "-" --------------------------------------
+NUM* multi(NUM *n1, NUM *n2){
+  NUM *ans = newNUM();
+  numList *intpart = newNumList(); ans->integer = intpart;
+  numList *decimpart = newNumList(); ans->decimal = decimpart;
 
-// NUM* multi(NUM *n1, NUM *n2){
-//   NUM *ans = newNUM();
-//   numList *intpart = newNumList(); ans->integer = intpart;
-//   numList *decimpart = newNumList(); ans->decimal = decimpart;
-//   // if(n1->sign != n2->sign) ans->sign = 0;
-//   // else ans->sign = 1;
-//
-//   numNode* cycle1 = n1->decimal->head;
-//   numNode* cycle2 = n2->decimal->head;
-//
-//   numNode *dtail2 = getNumTail(n2->decimal);
-//   numNode *itail2 = getNumTail(n2->integer);
-//
-//   while (1) {  // 소수 부분에 넣는다
-//
-//     if(cycle1 == NULL && cycle2 == NULL)break;
-//     else if(cycle1 == NULL) {
-//
-//       cycle2 = cycle2->next;
-//     }
-//     else if(cycle2 == NULL) {
-//
-//       cycle1 = cycle1->next;
-//     }
-//     else{
-//
-//       cycle1 = cycle1->nextk; cycle2 = cycle2->next;
-//     }
-//
-//   }
-//
-// }
+  numNode *itail1 = getNumTail(n1->integer); numNode *itail2 = getNumTail(n2->integer);
+  numNode *dtail1 = getNumTail(n1->decimal); numNode *dtail2 = getNumTail(n2->decimal);
 
-//----------------------- "*"----------------------------------------
+  numList *tmp = newNumList();  // 임식적으로 값을 저장할 것
 
-// NUM* divi(NUM *n1, NUM *n2){
-//
-// }
+  if(itail1 == NULL & itail2 ==NULL){
 
-// -------------- the end (until divi) -------------------------------
+  }
+
+
+
+}
 

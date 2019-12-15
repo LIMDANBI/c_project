@@ -1,7 +1,7 @@
 # include "cal.h"
 
 int getOperPri(char oper){   //연산자의 우선순위를 리턴하는 함수  (in2post에서 사용)
-  if(oper == '*' || oper == '/'){
+  if(oper == '*'){
     return 3;
   }
   else if(oper == '+' || oper == '-'){
@@ -11,7 +11,6 @@ int getOperPri(char oper){   //연산자의 우선순위를 리턴하는 함수 
     return 1;
   }
 }
-
 
 void in2post(expressionList* infix, expressionList* postfix){
   expressionNode* before = infix->head;
@@ -26,12 +25,15 @@ void in2post(expressionList* infix, expressionList* postfix){
 
       else if(before->oper == ')'){  // ')'인 경우
         while(!emptyOstk(stk) && stk->top->oper != '('){
+          if(emptyOstk(stk)){
+            printf(" !! The parentheses pair does not match. !! \n "); exit(1); 
+          }
           appendExpression(postfix, newExpressionNode(NULL, pop4Ostk(stk)));
         }
         pop4Ostk(stk);
       }
 
-      else{  // +, -, *, /  인 경우
+      else{  // +, -, *  인 경우
           while(!emptyOstk(stk) && getOperPri(stk->top->oper) >= getOperPri(before->oper)){
             appendExpression(postfix, newExpressionNode(NULL, pop4Ostk(stk)));
           }
@@ -43,4 +45,13 @@ void in2post(expressionList* infix, expressionList* postfix){
   while(!emptyOstk(stk)){
     appendExpression(postfix, newExpressionNode(NULL, pop4Ostk(stk)));
   }
+
+  expressionNode *path = postfix->head;
+  while(path != NULL){
+    if(path->oper == '(' || path->oper ==')'){
+      printf(" !! The parentheses pair does not match. !! \n "); exit(1); 
+    }
+    path = path->next;
+  }
 }
+

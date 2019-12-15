@@ -110,16 +110,20 @@ int whoMore(NUM *n1, NUM *n2){  // 두 넘을 받아서 누가 절대값이 더 
 void deletzero(NUM *n){    // 불필요한 앞뒤 0 을 제거해주는 함수
   numNode *intpart = n->integer->head;
   numNode *decimpart = getNumTail(n->decimal);
-  while(intpart->data == 0){
-    numNode *freed = intpart;
+  numNode *freed1; numNode *freed2;
+
+  while(intpart->data == 0 && intpart->next != NULL){
+    freed1 = intpart;
     intpart = intpart->next;
     n->integer->head = intpart;
-    // free(freed);
+    free(freed1);
   }
-  while(decimpart->data == 0){
-    numNode *freed = decimpart;
-    decimpart = decimpart->prev;
-    // free(freed);
+  if(decimpart != NULL){
+    while(decimpart->data == 0){
+      freed2 = decimpart;
+      decimpart = decimpart->prev;
+      free(freed2);
+    }  
   }
 }
 

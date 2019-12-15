@@ -189,20 +189,73 @@ NUM* minus(NUM *n1, NUM *n2){
 //----------------------- "*" --------------------------------------
 
 NUM* multi(NUM *n1, NUM *n2){
+
+  printNum(n1);
+  printf("\n");
+  printNum(n2);
+  printf("\n");
+
+  int carry = 0;
   NUM *ans = newNUM();
   numList *intpart = newNumList(); ans->integer = intpart;
   numList *decimpart = newNumList(); ans->decimal = decimpart;
 
-  numNode *itail1 = getNumTail(n1->integer); numNode *itail2 = getNumTail(n2->integer);
-  numNode *dtail1 = getNumTail(n1->decimal); numNode *dtail2 = getNumTail(n2->decimal);
+  numNode *itail1 = getNumTail(n1->integer); numNode *dtail1 = getNumTail(n1->decimal);
+  numNode *itail2 = getNumTail(n2->integer); numNode *dtail2 = getNumTail(n2->decimal);
 
-  numList *tmp = newNumList();  // 임식적으로 값을 저장할 것
+  numList *tmp1 = newNumList();  // 임식적으로 값을 저장할 것
+  numList *tmp2 = newNumList();
+  numNode *seat = NULL;
 
-  if(itail1 == NULL & itail2 ==NULL){
-
+// 정수로 만들어 주기
+  while(dtail1 != NULL){
+    rappendNum(tmp1, dtail1->data);
+    dtail1 = dtail1->prev;
   }
+  while(itail1 != NULL){
+    rappendNum(tmp1, itail1->data);
+    itail1 = itail1->prev;
+  }
+
+  while(dtail2 != NULL){
+    rappendNum(tmp2, dtail2->data);
+    dtail2 = dtail2->prev;
+  }
+  while(itail2 != NULL){
+    rappendNum(tmp2, itail2->data);
+    itail2 = itail2->prev;
+  }
+
+
+// 제대로 바뀌는지 츌력해보는 부분    처음것만 바뀜,,
+  numNode *path1 = tmp1->head;
+  while (path1 != NULL) {
+    printf("%d", path1->data);
+    path1 = path1->next;
+  }
+
+  printf("\n");
+
+  numNode *path2 = tmp2->head;
+  while (path2 != NULL) {
+    printf("%d", path2->data);
+    path2 = path2->next;
+  }
+
+
+// 계산 시작
+ // while(tmp2 != NULL){
+ //   while (tmp1 != NULL) {
+ //
+ //   }
+ // }
+
+
+// 다시 소수로 돌려놓음
+  // while (dtail1 == NULL && dtail2 == NULL) {
+  //
+  // }
 
 
 
 }
-

@@ -15,9 +15,10 @@ int getOperPri(char oper){   //연산자의 우선순위를 리턴하는 함수 
 void in2post(expressionList* infix, expressionList* postfix){
   expressionNode* before = infix->head;
   operStk* stk = newOperStk();
+  expressionNode *freed;
 
-  while(before != NULL){ //숫자인 경우
-    if(!operCheck(before->oper)){
+  while(before != NULL){
+    if(!operCheck(before->oper)){ //숫자인 경우
       appendExpression(postfix, newExpressionNode(before->num, 0));
     }
     else{ //연산자인 경우
@@ -40,18 +41,20 @@ void in2post(expressionList* infix, expressionList* postfix){
           push2Ostk(stk, before->oper);
       }
     }
-    before = before->next;
+    freed = before; before = before->next;
+    free(freed);
   }
   while(!emptyOstk(stk)){
     appendExpression(postfix, newExpressionNode(NULL, pop4Ostk(stk)));
+
   }
 
-  expressionNode *path = postfix->head;
-  while(path != NULL){
-    if(path->oper == '(' || path->oper ==')'){
-      printf(" !! The parentheses pair does not match. !! \n "); exit(1);
-    }
-    path = path->next;
-  }
+  // expressionNode *path = postfix->head;
+  // while(path != NULL){
+  //   if(path->oper == '(' || path->oper ==')'){
+  //     printf(" !! The parentheses pair does not match. !! \n "); exit(1);
+  //   }
+  //   path = path->next;
+  // }
 }
 

@@ -268,14 +268,14 @@ NUM* multi(NUM *n1, NUM *n2){
    tmpPath2 = tmpPath2->prev; tmpPath1 = getNumTail(tmp1);
    if(oaseat == NULL) oaseat = seat;
    else {
-    oaseat = oaseat -> prev; seat = oaseat; 
+    oaseat = oaseat -> prev; seat = oaseat;
    }
  }
 
 
 // 다시 소수로 돌려놓음
-
   numNode *resultTmpPath = getNumTail(resultTmp);
+  dtail1 = getNumTail(n1->decimal); dtail2 = getNumTail(n1->decimal);
 
   if(dtail1 == NULL && dtail2 == NULL) {  // 정수 부분만 있음
     ans->integer = resultTmp;
@@ -291,6 +291,7 @@ NUM* multi(NUM *n1, NUM *n2){
       rappendNum(intpart, resultTmpPath->data);
       resultTmpPath = resultTmpPath->prev;
     }
+    if(ans->integer == NULL) appendNum(intpart,0);
     return ans;
   }
   else if(dtail2 == NULL){   //dtail1 != NULL
@@ -303,6 +304,7 @@ NUM* multi(NUM *n1, NUM *n2){
       rappendNum(intpart, resultTmpPath->data);
       resultTmpPath = resultTmpPath->prev;
     }
+    if(ans->integer == NULL) appendNum(intpart,0);
   }
   else{  // dtail2 != NULL && dtail1 != NULL
     while (dtail1!=NULL) {
@@ -319,7 +321,9 @@ NUM* multi(NUM *n1, NUM *n2){
       rappendNum(intpart, resultTmpPath->data);
       resultTmpPath = resultTmpPath->prev;
     }
+    if(ans->integer == NULL) appendNum(intpart,0);
     return ans;
   }
 
 }
+

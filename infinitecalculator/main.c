@@ -1,15 +1,38 @@
 #include "cal.h"
+#include <time.h>
 
+long long getElapsedTime(unsigned int nFlag)
+{
+	const long long NANOS = 1000000000LL;
+	static struct timespec startTS, endTS;
+	static long long retDiff = 0;
+
+	if (nFlag == 0) {
+		retDiff = 0;
+		if (clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &startTS) == -1) {
+			printf("Failed to call clock_gettime\n");
+		}
+	}
+	else {
+		if (clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &endTS) == -1) {
+			printf("Failed to call clock_gettime\n");
+		}
+		retDiff = NANOS * (endTS.tv_sec - startTS.tv_sec) + (endTS.tv_nsec - startTS.tv_nsec);
+ 	}
+
+	return retDiff;
+}
 int main(int argc, char *argv[]){
 
     printf(" ======= Welcome to infinite calculator! ======= \n");
     printf("Enter the expression in infix notation.\n");
+		getElapsedTime(0);
 
     FILE* fp;
     char c;
     char store = 'f';  //first
     int checkPoint = 0, oLap = 0;
-    
+
 
     expressionList *infix = newExpressionList();
     NUM *nNum = newNUM();
@@ -17,7 +40,7 @@ int main(int argc, char *argv[]){
 
     nNum->integer = intpart;
     nNum->decimal = decimpart;
-    
+
     fp = fopen("input", "r");
         if(fp == NULL)
 	    perror("Error opening file");
@@ -25,7 +48,7 @@ int main(int argc, char *argv[]){
 	{
 	    while(!feof(fp)){
 		c = fgetc(fp);
-		if(c == 10 || c < 0) continue;	
+		if(c == 10 || c < 0) continue;
 	        if('0' <= c && c<= '9'){
 	  	    if(checkPoint == 0) appendNum(intpart, c - '0');
 		    else appendNum(decimpart, c - '0');
@@ -93,7 +116,7 @@ int main(int argc, char *argv[]){
 			    nNum->integer = intpart; nNum->decimal = decimpart;
 			}
 		    }
-		} 
+		}
 
 		else if(c == '.'){
 		    if(checkPoint == 1){
@@ -111,9 +134,7 @@ int main(int argc, char *argv[]){
 	    }
 	    fclose(fp);
 	}
-
-
-
+	
     appendExpression(infix, newExpressionNode(nNum, 0));
     expressionList* postfix = newExpressionList();
     in2post(infix, postfix);
@@ -202,5 +223,8 @@ int main(int argc, char *argv[]){
 
     NUM *final_ans = pop4Nstk(nStk); deletzero(final_ans);
     printNum(final_ans); printf("\n");
+		printf("Elapsed Time: %lld\n", getElapsedTime(1));
+		return 0;
 
   }
+

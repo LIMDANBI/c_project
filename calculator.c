@@ -190,6 +190,8 @@ NUM* minus(NUM *n1, NUM *n2){
 
 NUM* multi(NUM *n1, NUM *n2){
 
+  deletzero(n1); deletzero(n2);
+
   int carry = 0;
   NUM *ans = newNUM();
   numList *intpart = newNumList(); ans->integer = intpart;
@@ -201,6 +203,7 @@ NUM* multi(NUM *n1, NUM *n2){
   numList *tmp1 = newNumList(); numList *tmp2 = newNumList();  // 임식적으로 값을 저장할 것
   numList *resultTmp = newNumList();
   numNode *seat = getNumTail(resultTmp); numNode *oaseat =  getNumTail(resultTmp);
+
 
 // 정수로 만들어 주기
   while(dtail1 != NULL){
@@ -263,7 +266,7 @@ NUM* multi(NUM *n1, NUM *n2){
      tmpPath1 = tmpPath1->prev;
    }
    if(carry != 0) {
-    rappendNum(resultTmp, carry); carry = 0; 
+    rappendNum(resultTmp, carry); carry = 0;
    }
    if(seat==NULL) seat = getNumTail(resultTmp);
    seat = seat->prev;
@@ -274,58 +277,65 @@ NUM* multi(NUM *n1, NUM *n2){
    }
  }
 
+ numNode *testP = resultTmp->head;
+
+ while(testP!=NULL){
+   printf("%d",testP->data);
+   testP = testP->next;
+ }
+ printf("\n");
 
 // 다시 소수로 돌려놓음
   numNode *resultTmpPath = getNumTail(resultTmp);
-  dtail1 = getNumTail(n1->decimal); dtail2 = getNumTail(n1->decimal);
+  dtail1 = getNumTail(n1->decimal); dtail2 = getNumTail(n2->decimal);
 
-  if(dtail1 == NULL && dtail2 == NULL) {  // 정수 부분만 있음
+  if(dtail1 == NULL && dtail2 == NULL) {  // 정수 부분만 있음 (둘다 소수점이 없음)
     ans->integer = resultTmp;
-    return ans;
-  }
-  else if(dtail1 == NULL){   // dtail2 != NULL
-    while (dtail2!=NULL) {
-      rappendNum(decimpart, resultTmpPath->data);
-      resultTmpPath = resultTmpPath->prev;
-      dtail2 = dtail2->prev;
-    }
-    while (resultTmpPath != NULL) {
-      rappendNum(intpart, resultTmpPath->data);
-      resultTmpPath = resultTmpPath->prev;
-    }
-    if(ans->integer == NULL) appendNum(intpart,0);
-    return ans;
-  }
-  else if(dtail2 == NULL){   //dtail1 != NULL
-    while (dtail1!=NULL) {
-      rappendNum(decimpart, resultTmpPath->data);
-      resultTmpPath = resultTmpPath->prev;
-      dtail1 = dtail1->prev;
-    }
-    while (resultTmpPath != NULL) {
-      rappendNum(intpart, resultTmpPath->data);
-      resultTmpPath = resultTmpPath->prev;
-    }
-    if(ans->integer == NULL) appendNum(intpart,0);
-  }
-  else{  // dtail2 != NULL && dtail1 != NULL
-    while (dtail1!=NULL) {
-      rappendNum(decimpart, resultTmpPath->data);
-      resultTmpPath = resultTmpPath->prev;
-      dtail1 = dtail1->prev;
-    }
-    while (dtail2!=NULL) {
-      rappendNum(decimpart, resultTmpPath->data);
-      resultTmpPath = resultTmpPath->prev;
-      dtail2 = dtail2->prev;
-    }
-    while (resultTmpPath != NULL) {
-      rappendNum(intpart, resultTmpPath->data);
-      resultTmpPath = resultTmpPath->prev;
-    }
-    if(ans->integer == NULL) appendNum(intpart,0);
-    return ans;
   }
 
+  else if(dtail1 == NULL && dtail2 != NULL){   // dtail2 != NULL
+    while (dtail2!=NULL) {
+      rappendNum(decimpart, resultTmpPath->data);
+      resultTmpPath = resultTmpPath->prev;
+      dtail2 = dtail2->prev;
+    }
+    while (resultTmpPath != NULL) {
+      rappendNum(intpart, resultTmpPath->data);
+      resultTmpPath = resultTmpPath->prev;
+    }
+    if(ans->integer == NULL) appendNum(intpart,0);
+  }
+
+  else if(dtail1 != NULL && dtail2 == NULL){   //dtail1 != NULL
+    while (dtail1!=NULL) {
+      rappendNum(decimpart, resultTmpPath->data);
+      resultTmpPath = resultTmpPath->prev;
+      dtail1 = dtail1->prev;
+    }
+    while (resultTmpPath != NULL) {
+      rappendNum(intpart, resultTmpPath->data);
+      resultTmpPath = resultTmpPath->prev;
+    }
+    if(ans->integer == NULL) appendNum(intpart, 0);
+  }
+
+  else if(dtail1 != NULL && dtail2 != NULL ){  // dtail2 != NULL && dtail1 != NULL (둘다 소수점이 있음)
+    while (dtail1!=NULL) {
+      rappendNum(decimpart, resultTmpPath->data);
+      resultTmpPath = resultTmpPath->prev;
+      dtail1 = dtail1->prev;
+    }
+    while (dtail2!=NULL) {
+      rappendNum(decimpart, resultTmpPath->data);
+      resultTmpPath = resultTmpPath->prev;
+      dtail2 = dtail2->prev;
+    }
+    while (resultTmpPath != NULL) {
+      rappendNum(intpart, resultTmpPath->data);
+      resultTmpPath = resultTmpPath->prev;
+    }
+    if(ans->integer == NULL) appendNum(intpart,0);
+  }
+  return ans;
 }
 

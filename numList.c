@@ -123,7 +123,7 @@ void deletzero(NUM *n){    // 불필요한 앞뒤 0 을 제거해주는 함수
       freed2 = decimpart;
       decimpart = decimpart->prev;
       free(freed2);
-    }  
-  }
+    }
+  }  
 }
 

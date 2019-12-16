@@ -284,7 +284,7 @@ NUM* multi(NUM *n1, NUM *n2){
 
 // 다시 소수로 돌려놓음
   numNode *resultTmpPath = getNumTail(resultTmp);
-  dtail1 = getNumTail(n1->decimal); dtail2 = getNumTail(n1->decimal);
+  dtail1 = getNumTail(n1->decimal); dtail2 = getNumTail(n2->decimal);
 
   if(dtail1 == NULL && dtail2 == NULL) {  // 정수 부분만 있음 (둘다 소수점이 없음)
     ans->integer = resultTmp;

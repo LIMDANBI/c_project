@@ -190,11 +190,6 @@ NUM* minus(NUM *n1, NUM *n2){
 
 NUM* multi(NUM *n1, NUM *n2){
 
-  printNum(n1);
-  printf("\n");
-  printNum(n2);
-  printf("\n");
-
   int carry = 0;
   NUM *ans = newNUM();
   numList *intpart = newNumList(); ans->integer = intpart;
@@ -203,9 +198,9 @@ NUM* multi(NUM *n1, NUM *n2){
   numNode *itail1 = getNumTail(n1->integer); numNode *dtail1 = getNumTail(n1->decimal);
   numNode *itail2 = getNumTail(n2->integer); numNode *dtail2 = getNumTail(n2->decimal);
 
-  numList *tmp1 = newNumList();  // 임식적으로 값을 저장할 것
-  numList *tmp2 = newNumList();
-  numNode *seat = NULL;
+  numList *tmp1 = newNumList(); numList *tmp2 = newNumList();  // 임식적으로 값을 저장할 것
+  numList *resultTmp = newNumList();
+  numNode *seat = getNumTail(resultTmp); numNode *oaseat =  getNumTail(resultTmp);
 
 // 정수로 만들어 주기
   while(dtail1 != NULL){
@@ -226,36 +221,105 @@ NUM* multi(NUM *n1, NUM *n2){
     itail2 = itail2->prev;
   }
 
+  numNode *tmpPath1 = getNumTail(tmp1);
+  numNode *tmpPath2 = getNumTail(tmp2);
 
-// 제대로 바뀌는지 츌력해보는 부분    처음것만 바뀜,,
-  numNode *path1 = tmp1->head;
-  while (path1 != NULL) {
-    printf("%d", path1->data);
-    path1 = path1->next;
-  }
-
-  printf("\n");
-
-  numNode *path2 = tmp2->head;
-  while (path2 != NULL) {
-    printf("%d", path2->data);
-    path2 = path2->next;
-  }
-
-
-// 계산 시작
- // while(tmp2 != NULL){
- //   while (tmp1 != NULL) {
- //
- //   }
- // }
+//계산 시작
+ while(tmpPath2 != NULL){
+   while (tmpPath1 != NULL) {
+     int temp;
+     if (seat == NULL){
+       temp = carry + tmpPath1->data * tmpPath2->data;
+       if(temp>9){
+         carry = temp/10; temp = temp%10;
+         rappendNum(resultTmp, temp);
+       }
+       else{
+         rappendNum(resultTmp, temp); carry = 0;
+       }
+     }
+     else{
+       temp = carry + seat->data + tmpPath1->data * tmpPath2->data;
+       if(temp>9){
+         if(seat!=NULL){
+           carry = temp/10; temp = temp%10;
+           seat->data = temp;
+         }
+         else{
+           carry = temp/10; temp = temp%10;
+           rappendNum(resultTmp, temp); carry = 0;
+         }
+       }
+       else{
+         if(seat!=NULL){
+           seat->data = temp; carry = 0;
+         }
+         else{
+           rappendNum(resultTmp, temp); carry = 0;
+         }
+       }
+       seat = seat->prev;
+     }
+     tmpPath1 = tmpPath1->prev;
+   }
+   if(carry != 0) rappendNum(resultTmp, carry);
+   if(seat==NULL) seat = getNumTail(resultTmp);
+   seat = seat->prev;
+   tmpPath2 = tmpPath2->prev; tmpPath1 = getNumTail(tmp1);
+   if(oaseat == NULL) oaseat = seat;
+   else {
+    oaseat = oaseat -> prev; seat = oaseat; 
+   }
+ }
 
 
 // 다시 소수로 돌려놓음
-  // while (dtail1 == NULL && dtail2 == NULL) {
-  //
-  // }
 
+  numNode *resultTmpPath = getNumTail(resultTmp);
 
+  if(dtail1 == NULL && dtail2 == NULL) {  // 정수 부분만 있음
+    ans->integer = resultTmp;
+    return ans;
+  }
+  else if(dtail1 == NULL){   // dtail2 != NULL
+    while (dtail2!=NULL) {
+      rappendNum(decimpart, resultTmpPath->data);
+      resultTmpPath = resultTmpPath->prev;
+      dtail2 = dtail2->prev;
+    }
+    while (resultTmpPath != NULL) {
+      rappendNum(intpart, resultTmpPath->data);
+      resultTmpPath = resultTmpPath->prev;
+    }
+    return ans;
+  }
+  else if(dtail2 == NULL){   //dtail1 != NULL
+    while (dtail1!=NULL) {
+      rappendNum(decimpart, resultTmpPath->data);
+      resultTmpPath = resultTmpPath->prev;
+      dtail1 = dtail1->prev;
+    }
+    while (resultTmpPath != NULL) {
+      rappendNum(intpart, resultTmpPath->data);
+      resultTmpPath = resultTmpPath->prev;
+    }
+  }
+  else{  // dtail2 != NULL && dtail1 != NULL
+    while (dtail1!=NULL) {
+      rappendNum(decimpart, resultTmpPath->data);
+      resultTmpPath = resultTmpPath->prev;
+      dtail1 = dtail1->prev;
+    }
+    while (dtail2!=NULL) {
+      rappendNum(decimpart, resultTmpPath->data);
+      resultTmpPath = resultTmpPath->prev;
+      dtail2 = dtail2->prev;
+    }
+    while (resultTmpPath != NULL) {
+      rappendNum(intpart, resultTmpPath->data);
+      resultTmpPath = resultTmpPath->prev;
+    }
+    return ans;
+  }
 
 }

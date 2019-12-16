@@ -25,7 +25,7 @@ int main(int argc, char *argv[]){
 	{
 	    while(!feof(fp)){
 		c = fgetc(fp);
-		putchar(c);	
+		if(c == 10 || c < 0) continue;	
 	        if('0' <= c && c<= '9'){
 	  	    if(checkPoint == 0) appendNum(intpart, c - '0');
 		    else appendNum(decimpart, c - '0');

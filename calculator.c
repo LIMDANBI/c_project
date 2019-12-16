@@ -262,7 +262,9 @@ NUM* multi(NUM *n1, NUM *n2){
      }
      tmpPath1 = tmpPath1->prev;
    }
-   if(carry != 0) rappendNum(resultTmp, carry);
+   if(carry != 0) {
+    rappendNum(resultTmp, carry); carry = 0; 
+   }
    if(seat==NULL) seat = getNumTail(resultTmp);
    seat = seat->prev;
    tmpPath2 = tmpPath2->prev; tmpPath1 = getNumTail(tmp1);

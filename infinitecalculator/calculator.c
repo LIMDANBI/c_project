@@ -276,63 +276,53 @@ NUM* multi(NUM *n1, NUM *n2){
 
  numNode *testP = resultTmp->head;
 
- while(testP!=NULL){
-   printf("%d",testP->data);
-   testP = testP->next;
- }
- printf("\n");
-
 // 다시 소수로 돌려놓음
-  numNode *resultTmpPath = getNumTail(resultTmp);
-  dtail1 = getNumTail(n1->decimal); dtail2 = getNumTail(n2->decimal);
+  numNode *resultTmpPath = getNumTail(resultTmp);  // 정수 계산결과 값의 꼬리노드를 리턴 받는다
+  dtail1 = getNumTail(n1->decimal); dtail2 = getNumTail(n2->decimal);  // 들어온 두 인자의 소수 부분의 꼬리 노드를 리턴 받는다
 
   if(dtail1 == NULL && dtail2 == NULL) {  // 정수 부분만 있음 (둘다 소수점이 없음)
     ans->integer = resultTmp;
   }
 
-  else if(dtail1 == NULL && dtail2 != NULL){   // dtail2 != NULL
-    while (dtail2!=NULL) {
+  else if(dtail1 != NULL && dtail2 != NULL){  // 둘다 소수 부분이 있음
+    while (dtail1 != NULL) {   // 먼저 n1 소수 부분만큼 돌면서 정답의 소수 부분에 역으로 넣어줌
       rappendNum(decimpart, resultTmpPath->data);
-      resultTmpPath = resultTmpPath->prev;
-      dtail2 = dtail2->prev;
+      resultTmpPath = resultTmpPath->prev; dtail1 = dtail1->prev;
     }
-    while (resultTmpPath != NULL) {
-      rappendNum(intpart, resultTmpPath->data);
-      resultTmpPath = resultTmpPath->prev;
-    }
-    if(ans->integer == NULL) appendNum(intpart,0);
-  }
-
-  else if(dtail1 != NULL && dtail2 == NULL){   //dtail1 != NULL
-    while (dtail1!=NULL) {
+    while (dtail2 != NULL) { // n2소수 부분만큼 돌면서 정답의 소수 부분에 역으로 넣어줌
       rappendNum(decimpart, resultTmpPath->data);
-      resultTmpPath = resultTmpPath->prev;
-      dtail1 = dtail1->prev;
+      resultTmpPath = resultTmpPath->prev; dtail2 = dtail2->prev;
     }
-    while (resultTmpPath != NULL) {
+    while(resultTmpPath != NULL){  // 소수 부분에 넣고 남은 부분은 정수 부분에 넣어 줌
       rappendNum(intpart, resultTmpPath->data);
       resultTmpPath = resultTmpPath->prev;
     }
     if(ans->integer == NULL) appendNum(intpart, 0);
   }
 
-  else if(dtail1 != NULL && dtail2 != NULL ){  // dtail2 != NULL && dtail1 != NULL (둘다 소수점이 있음)
-    while (dtail1!=NULL) {
+  else if(dtail2 == NULL) { //n1의 소수 부분만 있음
+    while (dtail1 != NULL) {  // n1 소수 부분만큼 돌면서 정답의 소수 부분에 역으로 넣어줌
       rappendNum(decimpart, resultTmpPath->data);
-      resultTmpPath = resultTmpPath->prev;
-      dtail1 = dtail1->prev;
+      resultTmpPath = resultTmpPath->prev; dtail1 = dtail1->prev;
     }
-    while (dtail2!=NULL) {
-      rappendNum(decimpart, resultTmpPath->data);
-      resultTmpPath = resultTmpPath->prev;
-      dtail2 = dtail2->prev;
-    }
-    while (resultTmpPath != NULL) {
+    while (resultTmpPath != NULL) { // 소수 부분에 넣고 남은 부분은 정수 부분에 넣어 줌
       rappendNum(intpart, resultTmpPath->data);
       resultTmpPath = resultTmpPath->prev;
     }
-    if(ans->integer == NULL) appendNum(intpart,0);
+    if(ans->integer == NULL) appendNum(intpart, 0);
   }
+
+  else if(dtail1 == NULL){ // n2 의 소수부분만 있음
+    while (dtail2 != NULL) {  // n2 소수 부분만큼 돌면서 정답의 소수 부분에 역으로 넣어줌
+      rappendNum(decimpart, resultTmpPath->data);
+      resultTmpPath = resultTmpPath->prev; dtail2 = dtail2->prev;
+    }
+    while(resultTmpPath != NULL){  // 소수 부분에 넣고 남은 부분은 정수 부분에 넣어 줌
+      rappendNum(intpart, resultTmpPath->data);
+      resultTmpPath = resultTmpPath->prev;
+    }
+  }
+
   return ans;
 }
 

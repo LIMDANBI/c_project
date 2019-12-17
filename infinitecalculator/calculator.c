@@ -274,8 +274,6 @@ NUM* multi(NUM *n1, NUM *n2){
    }
  }
 
- numNode *testP = resultTmp->head;
-
 // 다시 소수로 돌려놓음
   numNode *resultTmpPath = getNumTail(resultTmp);  // 정수 계산결과 값의 꼬리노드를 리턴 받는다
   dtail1 = getNumTail(n1->decimal); dtail2 = getNumTail(n2->decimal);  // 들어온 두 인자의 소수 부분의 꼬리 노드를 리턴 받는다
@@ -322,7 +320,6 @@ NUM* multi(NUM *n1, NUM *n2){
       resultTmpPath = resultTmpPath->prev;
     }
   }
-
   return ans;
 }
 

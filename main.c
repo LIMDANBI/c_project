@@ -6,7 +6,7 @@ int main(){
     printf("Enter the expression in infix notation.\n");
 
     char c, store = 'f';  //first
-    int checkPoint = 0, oLap = 0;
+    int checkPoint = 0;
 
     expressionList *infix = newExpressionList();
     NUM *nNum = newNUM();
@@ -20,69 +20,74 @@ int main(){
       if('0' <= c && c <= '9'){ //숫자인 경우
         if(checkPoint == 0) appendNum(intpart, c-'0');
         else appendNum(decimpart, c-'0');
-        oLap =  0;
       }
 
       else if(operCheck(c)){  // 연산자인 경우
-        if(c != '(' && oLap == 1){
-          printf(" !! Wrong expression. !! \n"); exit(1);
-        }
-        if(c == '+'){
-          if(store == '+' || store == '-' || store == '*' || store == 'f' || store == '(') oLap = 1;
-          else{
-            appendExpression(infix, newExpressionNode(nNum, 0));
-            checkPoint = 0; nNum = newNUM(); oLap = 0;
-            intpart = newNumList(); decimpart = newNumList();
-            nNum->integer = intpart; nNum->decimal = decimpart;
-            appendExpression(infix, newExpressionNode(NULL, c));
-          }
-        }
-        else if (c == '-'){
-          if(store == '+' || store == '-' || store == '*' || store == 'f' || store == '('){
-            oLap = 1; nNum->sign = 1;
-          }
-          else {
-            appendExpression(infix, newExpressionNode(nNum, 0));
-            checkPoint = 0; nNum = newNUM(); oLap = 0;
-            intpart = newNumList(); decimpart = newNumList();
-            nNum->integer = intpart; nNum->decimal = decimpart;
-            appendExpression(infix, newExpressionNode(NULL, c));
-          }
-        }
-        else if(c == '*'){
-          if(store == '+' || store == '-' || store == '*' || store == 'f' || store == '(' ){
+        if(store == 'f' && store == '('){
+          if(c == '*' || c == ')') {
             printf(" !! Wrong expression. !! \n"); exit(1);
           }
-          else{
-            appendExpression(infix, newExpressionNode(nNum, 0));
-            checkPoint = 0; nNum = newNUM(); oLap = 0;
-            intpart = newNumList(); decimpart = newNumList();
-            nNum->integer = intpart; nNum->decimal = decimpart;
+          else if(c == '+');
+          else if(c == '-') nNum->sign = 1;
+          else if(c == '(') appendExpression(infix, newExpressionNode(NULL, c));
+        }
+        else if(store == '+'){
+          if(c == '+');
+          else if(c == '-') nNum->sign = 1;
+          else if(c == '*') {
+            printf(" !! Wrong expression. !! \n"); exit(1);
+          }
+          else if(c == '('){
             appendExpression(infix, newExpressionNode(NULL, c));
           }
-        }
-        else if(c == '('){  // 괄호 쌍이 맞는지 파악하기 해줘야함
-          if(store == '-' || store == '+'){
-            if(nNum->sign) appendExpression(infix, newExpressionNode(NULL, '-'));
-            else if(nNum->sign == 0) appendExpression(infix, newExpressionNode(NULL, '+'));
-            nNum->sign = 0; appendExpression(infix, newExpressionNode(NULL, c));
-          }
-          else if(store == ')'){
+          else if(c == ')'){
             printf(" !! Wrong expression. !! \n"); exit(1);
           }
-          else appendExpression(infix, newExpressionNode(NULL, c));
         }
-        else if(c== ')'){
-          if(store == '+' || store == '-' || store == '*' ||store == '('){
+        else if(store == '-'){
+          if(c == '+');
+          else if(c == '-') nNum->sign = 1;
+          else if(c == '*') {
             printf(" !! Wrong expression. !! \n"); exit(1);
           }
-          else if(store == ')') appendExpression(infix, newExpressionNode(NULL, c));
-          else{
-            appendExpression(infix, newExpressionNode(nNum, 0));
-            checkPoint = 0; nNum = newNUM(); oLap = 0;
-            intpart = newNumList(); decimpart = newNumList();
-            nNum->integer = intpart; nNum->decimal = decimpart;
+          else if(c == '('){
+            appendExpression(infix, newExpressionNode(NULL, c));
           }
+          else if(c == ')'){
+            printf(" !! Wrong expression. !! \n"); exit(1);
+          }
+        }
+        else if(store == '*'){
+          if(c == '+'){
+            appendExpression(infix, newExpressionNode(NULL, c));
+          }
+          else if(c == '-') {
+            appendExpression(infix, newExpressionNode(NULL, c));
+          } 
+          else if(c == '*') {
+            printf(" !! Wrong expression. !! \n"); exit(1);
+          }
+          else if(c == '('){
+            appendExpression(infix, newExpressionNode(NULL, c));
+          }
+          else if(c == ')'){
+            printf(" !! Wrong expression. !! \n"); exit(1);
+          }
+        }
+        else if(store == ')'){
+          if(c == '+' || c == '-' || c == '*' || c == ')'){
+            appendExpression(infix, newExpressionNode(NULL, c));
+          }
+          else if(c == '('){
+            printf(" !! Wrong expression. !! \n"); exit(1);
+          }
+        }
+        else{   // store = 숫자
+          appendExpression(infix, newExpressionNode(nNum, 0));
+          checkPoint = 0; nNum = newNUM();
+          intpart = newNumList(); decimpart = newNumList();
+          nNum->integer = intpart; nNum->decimal = decimpart;
+          appendExpression(infix, newExpressionNode(NULL, c));
         }
       }
 
@@ -98,16 +103,38 @@ int main(){
       else{  // 이외 나머지는 오류 처리
         printf(" !! You have entered an invalid character. !!\n"); exit(1);
       }
-      if(store != ' ') store = c;
+      if(c != ' ' && c!= '.') store = c;
     }
-
-
     appendExpression(infix, newExpressionNode(nNum, 0));
+
+    expressionNode *in = infix->head;
+    while (in != NULL) {
+      if(operCheck(in->oper)) {
+        printf("%c", in->oper);
+      }
+      else{
+        printNum(in->num);
+      }
+      in = in->next;
+    }
+    printf("\n");
+
     expressionList* postfix = newExpressionList();
     in2post(infix, postfix);
 
+    expressionNode *path1 = postfix->head;
+    while (path1!=NULL) {
+      if(operCheck(path1->oper)) {
+        printf(" %c ", path1->oper);
+      }
+      else{
+        printf(" "); printNum(path1->num); printf(" ");
+      }
+      path1 = path1->next;
+    }
+    printf("\n");
+
     expressionNode *path = postfix->head;
-    expressionNode *freed;
     numStk *nStk = newNumStk();  //계산시 숫자를 보관하고 빼서 쓸 스택 선언
 
     while(path!=NULL){   //postfix식을 돌면서 계산을 함
@@ -186,24 +213,11 @@ int main(){
       else{ // 넘인 경우
         push2Nstk(nStk, path->num);
       }
-      freed = path; path = path->next;
-      free(freed);
+      path = path->next;
     }
 
     NUM *final_ans = pop4Nstk(nStk); deletzero(final_ans);
     printNum(final_ans); printf("\n");
 
-    expressionNode *path1 = postfix->head;
-    // while (path1!=NULL) {
-    //   if(operCheck(path1->oper)) {
-    //     printf(" %c ", path1->oper);
-    //   }
-    //   else{
-    //     printf(" "); printNum(path1->num); printf(" ");
-    //   }
-    //   path1 = path1->next;
-    // }
-    if(path1 == NULL) printf("freesuscces\n");
-    else printf("Nofreesuscces\n");
   }
 
